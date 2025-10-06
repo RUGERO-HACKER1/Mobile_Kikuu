@@ -28,22 +28,6 @@ const countries = [
   { name: "Ghana", code: "+27", flag: "🇿🇦" },
   { name: "England", code: "+1", flag: "🇺🇸" },
   { name: "Spain", code: "+91", flag: "🇮🇳" },
-    { name: "Rwanda", code: "+250", flag: "🇷🇼" },
-  { name: "Kenya", code: "+254", flag: "🇰🇪" },
-  { name: "Uganda", code: "+256", flag: "🇺🇬" },
-  { name: "Tanzania", code: "+255", flag: "🇹🇿" },
-  { name: "Nigeria", code: "+234", flag: "🇳🇬" },
-  { name: "South Africa", code: "+27", flag: "🇿🇦" },
-  { name: "United States", code: "+1", flag: "🇺🇸" },
-  { name: "India", code: "+91", flag: "🇮🇳" },
-  { name: "Burundi", code: "+250", flag: "🇷🇼" },
-  { name: "DRC", code: "+254", flag: "🇰🇪" },
-  { name: "Egypt", code: "+256", flag: "🇺🇬" },
-  { name: "Algeria", code: "+255", flag: "🇹🇿" },
-  { name: "Senegal", code: "+234", flag: "🇳🇬" },
-  { name: "Ghana", code: "+27", flag: "🇿🇦" },
-  { name: "England", code: "+1", flag: "🇺🇸" },
-  { name: "Spain", code: "+91", flag: "🇮🇳" },
 ];
 
 export default function Profile() {
@@ -54,17 +38,30 @@ export default function Profile() {
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const [modalVisible, setModalVisible] = useState(false);
 
+  const validUsers: Record<
+    string,
+    { pwd: string; route: string }
+  > = {
+    "796216987": { pwd: "rugero", route: "/dashboards" },
+    "788484890": { pwd: "fiston", route: "/dashboard" },
+  };
+
   const handleSubmit = () => {
+    const enteredPhone = phone.trim(); // user input phone
+    const enteredPwd = password;
+
     if (isRegister) {
-      alert(`Creating account with: ${selectedCountry.code} ${phone}`);
-    } else {
-      alert(`Logging in with: ${selectedCountry.code} ${phone}`);
+      alert(`Creating account with: ${selectedCountry.code} ${enteredPhone}`);
+      router.replace("/dashboard");
+      return;
     }
 
-    // After successful register or login, show only the standalone dashboard
-    router.replace("/dashboards");
-
-
+    // LOGIN
+    if (validUsers[enteredPhone] && validUsers[enteredPhone].pwd === enteredPwd) {
+      router.replace(validUsers[enteredPhone].route);
+    } else {
+      alert("Invalid phone number or password. Please try again.");
+    }
   };
 
   const selectCountry = (country) => {
@@ -129,21 +126,18 @@ export default function Profile() {
           onChangeText={setPassword}
         />
 
-        {/* Forgot Password */}
         {!isRegister && (
           <TouchableOpacity>
             <Text style={styles.forgot}>Forgot password &gt;</Text>
           </TouchableOpacity>
         )}
 
-        {/* Submit Button */}
         <TouchableOpacity style={styles.btn} onPress={handleSubmit}>
           <Text style={styles.btnText}>
             {isRegister ? "CREATE ACCOUNT" : "LOGIN IN"}
           </Text>
         </TouchableOpacity>
 
-        {/* Terms or Register Prompt */}
         {isRegister ? (
           <Text style={styles.terms}>
             By registration, you agree to the{" "}
@@ -162,7 +156,7 @@ export default function Profile() {
           <Text style={styles.modalTitle}>Select Country</Text>
           <FlatList
             data={countries}
-            keyExtractor={(item) => item.code}
+            keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={styles.countryItem}

@@ -9,7 +9,7 @@ export default function OrderSuccess() {
       <Text style={styles.emoji}>✅</Text>
       <Text style={styles.title}>Order Placed!</Text>
       <Text style={styles.subtitle}>Thank you for your purchase.</Text>
-      <TouchableOpacity style={styles.btn} onPress={() => router.replace('/(tabs)')}>
+      <TouchableOpacity style={styles.btn} onPress={() => router.replace('/dashboard')}>
         <Text style={styles.btnText}>Back to Home</Text>
       </TouchableOpacity>
     </View>

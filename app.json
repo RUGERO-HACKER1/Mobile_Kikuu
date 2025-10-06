@@ -4,7 +4,7 @@
     "slug": "mobi",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcVyMUGt_8RqbIJ4AXr7oq1_KxKuVMM8_a4A&s",
     "scheme": "mobi",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,

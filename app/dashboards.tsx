@@ -18,13 +18,13 @@ import SectionHeader from '../component/admin/SectionHeader';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
-// Get screen width for responsive card styling
+
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = width - 80;
 
-// --- MOCK DATA (PRESERVED & NEW) ---
 
-// Dashboard Mocks
+
+
 const adminStats = [
     {
         id: '1',
@@ -65,7 +65,7 @@ const recentActivities = [
     { id: 'a3', type: 'review', icon: 'star-outline', text: 'New product review', subtext: '5 stars for "Smart Watch" - 3h ago'},
 ];
 
-// History Mocks
+
 const transactionData = [
     { icon: 'heart', color: '#7DBF8B', text: 'Health and beauty', value: '322$', type: 'value' },
     { icon: 'card', color: '#FBBF24', text: 'Transfers from card', value: '422$', type: 'value' },
@@ -83,7 +83,7 @@ const barChartData = [
     { value: 700, label: 'Sun', frontColor: '#7DBF8B' },
 ];
 
-// Statistics Mocks
+
 const lineChartData1 = [
     { value: 40, label: 'Mon' }, { value: 60, label: 'Tue' }, { value: 45, label: 'Wed' }, 
     { value: 70, label: 'Thu' }, { value: 55, label: 'Fri' }, { value: 65, label: 'Sat' }, 
@@ -96,7 +96,7 @@ const lineChartData2 = [
 ];
 
 
-// New Orders Mocks
+
 type OrderStatus = 'Pending' | 'Completed' | 'Delivered' | 'Aborted';
 
 interface Order {
@@ -118,7 +118,7 @@ const mockOrders: Order[] = [
     { id: 'KIKU7895', client: 'Eva Brown', product: '4K Monitor', quantity: 1, amount: 349.00, payment: 'Card', status: 'Delivered', date: '2025-09-28' },
 ];
 
-// --- TAB CONFIGURATION (UPDATED) ---
+
 const tabs = [
     { key: 'dashboard', title: 'Dashboard', icon: 'analytics-outline' },
     { key: 'card', title: 'Card', icon: 'card-outline' }, 
@@ -127,7 +127,7 @@ const tabs = [
     { key: 'orders', title: 'Orders', icon: 'list-circle-outline' }, // <-- NEW ORDERS TAB
 ];
 
-// --- Helper function for status colors ---
+
 const getStatusStyles = (status: OrderStatus) => {
     switch (status) {
         case 'Delivered':
@@ -143,11 +143,7 @@ const getStatusStyles = (status: OrderStatus) => {
     }
 };
 
-// ----------------------------------------------------------------------
-// --- TAB CONTENT COMPONENTS (All Preserved) ---
-// ----------------------------------------------------------------------
 
-// --- 1. Dashboard Content (Preserved) ---
 const DashboardContent = ({ router }: { router: ReturnType<typeof useRouter> }) => (
     <>
         <FlatList
@@ -196,7 +192,7 @@ const DashboardContent = ({ router }: { router: ReturnType<typeof useRouter> }) 
     </>
 );
 
-// --- 2. Card Content (Preserved) ---
+
 const CardContent = () => (
     <View style={styles.cardTabContainer}>
         <View style={styles.cardHeader}>
@@ -208,11 +204,11 @@ const CardContent = () => (
             <View style={[styles.creditCard, styles.creditCardBack1]}></View>
             <View style={[styles.creditCard, styles.creditCardBack2]}></View>
             <View style={[styles.creditCard, styles.creditCardFront]}>
-                <Text style={styles.bankName}>BANK NAME</Text>
+                <Text style={styles.bankName}>BK</Text>
                 <View style={styles.chip}></View>
                 <Text style={styles.cardNumber}>1234 1234 1234 1234</Text>
                 <View style={styles.cardFooter}>
-                    <Text style={styles.cardHolderName}>NAME SURNAME</Text>
+                    <Text style={styles.cardHolderName}>RUGERO</Text>
                     <Text style={styles.expiryDate}>02/00</Text>
                 </View>
             </View>
@@ -289,8 +285,23 @@ const CardContent = () => (
         </View>
     </View>
 );
+ const handleLogout = () => {
+        Alert.alert(
+            "Logout",
+            "Are you sure you want to log out?",
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "OK",
+                    onPress: () => {
+                        clearCart();
+                        router.replace("/profile");
+                    },
+                },
+            ]
+        );
+    };
 
-// --- 3. Statistics Content (Preserved) ---
 const StatisticsContent = () => {
     return (
         <View style={styles.statsTabContainer}>
@@ -350,6 +361,10 @@ const StatisticsContent = () => {
                         hideOrigin
                         disableScroll
                     />
+                                <TouchableOpacity  onPress={handleLogout}>
+                                    <MaterialCommunityIcons name="logout" size={22} color="#ef4444" />
+                                    <Text> Logout</Text>
+                                </TouchableOpacity>
                 </View>
             </View>
             <View style={styles.statsSectionContainer}>
@@ -392,18 +407,18 @@ const StatisticsContent = () => {
     );
 };
 
-// --- 4. History Content (Preserved) ---
+
 const HistoryContent = () => {
     return (
         <View style={styles.historyTabContainer}>
-            {/* Header */}
+           
             <View style={styles.historyHeader}>
                 <Ionicons name="menu-outline" size={28} color="#333" />
                 <Text style={styles.historyHeaderText}>History</Text>
                 <Ionicons name="person-circle-outline" size={28} color="#333" />
             </View>
 
-            {/* Donut Chart Simulation */}
+          
             <View style={styles.donutChartWrapper}>
                 <View style={styles.donutChartContainer}>
                     <View style={styles.donutOuterRing}>
@@ -420,7 +435,7 @@ const HistoryContent = () => {
                 </View>
             </View>
 
-            {/* Transaction History Section */}
+          
             <Text style={styles.transactionHistoryTitle}>Transaction History</Text>
             <Text style={styles.transactionHistorySubtitle}>Aug 01, 20 11:42 pm</Text>
 
@@ -440,7 +455,7 @@ const HistoryContent = () => {
                 ))}
             </View>
 
-            {/* Analysis Section (Bar Chart) */}
+            
             <View style={styles.analysisContainer}>
                 <View style={styles.analysisHeaderRow}>
                     <View>
@@ -480,11 +495,9 @@ const HistoryContent = () => {
     );
 };
 
-// ----------------------------------------------------------------------
-// --- 5. NEW Orders Content Component ---
-// ----------------------------------------------------------------------
+
 const OrdersContent = () => {
-    // State to manage orders (including their status)
+    
     const [orders, setOrders] = useState(mockOrders);
 
     const handleStatusUpdate = (orderId: string, newStatus: OrderStatus) => {
